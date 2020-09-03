@@ -15,3 +15,6 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->get('/news', 'NewsController@index');
+$router->get('/news/{id}', 'NewsController@Detail');
+$router->get('/category', 'NewsController@CategoryList');
