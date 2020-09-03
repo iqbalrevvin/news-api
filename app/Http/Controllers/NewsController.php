@@ -25,6 +25,7 @@ class NewsController extends Controller
     			'image' 		=> $value->image,
     			'date' 			=> $value->date,
     			'author' 		=> $value->author->name,
+    			'category_id' 	=> $value->category_id,
     			'category' 		=> $value->category->name,
     			'created_at' 	=> $value->created_at->diffForHumans(),
     		];
