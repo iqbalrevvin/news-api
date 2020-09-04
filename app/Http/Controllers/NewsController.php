@@ -18,6 +18,15 @@ class NewsController extends Controller
     		$news = News::where('status', 'Publish')->get();
     	}
 
+    	$banners = News::where('status', 'Publish')->inRandomOrder()->limit(5)->get();
+    	foreach ($banners as $key => $value) {
+    		$data_banner[] = [
+    			'id' => $value->id,
+    			'title' => $value->title,
+    			'image' => $value->image
+    		];
+    	}
+
     	foreach($news as $key => $value){
     		$data[] = [
     			'id' 			=> $value->id,
@@ -35,6 +44,7 @@ class NewsController extends Controller
 	        'status' => 'success',
 	        'message' => 'News List',
 	        'data' => [
+	        	'banner' => $data_banner,
 	        	'news' => $data
 	        ]
 	    ], 200);
