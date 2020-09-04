@@ -13,7 +13,7 @@ class NewsController extends Controller
     {
     	$keyword = $request->has('keyword');
     	if($request->has('keyword')){
-    		$news = News::where('status', 'Publish')->where('title','like','%'.$request->keyword.'%')->orderBy('created_at', 'desc')->get();
+    		$news = News::join('category', 'news.category_id', '=', 'category.id')->where('news.status', 'Publish')->where('news.title','like','%'.$request->keyword.'%')->orWhere('category.name','like','%'.$request->keyword.'%')->orderBy('news.created_at', 'desc')->get();
     	}else{
     		$news = News::where('status', 'Publish')->orderBy('created_at', 'desc')->get();
     	}
