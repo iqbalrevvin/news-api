@@ -13,7 +13,12 @@ class NewsController extends Controller
     {
     	$keyword = $request->has('keyword');
     	if($request->has('keyword')){
-    		$news = News::join('category', 'news.category_id', '=', 'category.id')->where('news.status', 'Publish')->where('news.title','like','%'.$request->keyword.'%')->orWhere('category.name','like','%'.$request->keyword.'%')->orderBy('news.created_at', 'desc')->get();
+    		$news = News::select('news.id as id', 'news.title','news.image', 'author.name as author_name', 'category.id as category_id', 'category.name as category_name', 'news.created_at')->join('category', 'category.id', '=', 'news.category_id')
+    					->join('author', 'author.id', '=', 'news.author_id')
+    					->where('news.status', 'Publish')->where('news.title','like','%'.$request->keyword.'%')
+    					->orWhere('category.name','like','%'.$request->keyword.'%')
+    					->orderBy('news.created_at', 'desc')->get();
+
     	}else{
     		$news = News::where('status', 'Publish')->orderBy('created_at', 'desc')->get();
     	}
@@ -32,8 +37,7 @@ class NewsController extends Controller
     			'id' 			=> $value->id,
     			'title' 		=> $value->title,
     			'image' 		=> $value->image,
-    			'date' 			=> $value->date,
-    			'author' 		=> $value->author->name,
+    			'author' 		=> $value->author_name,
     			'category_id' 	=> $value->category_id,
     			'category' 		=> $value->category->name,
     			'created_at' 	=> $value->created_at->diffForHumans(),
