@@ -13,9 +13,9 @@ class NewsController extends Controller
     {
     	$keyword = $request->has('keyword');
     	if($request->has('keyword')){
-    		$news = News::where('status', 'Publish')->where('title','like','%'.$request->keyword.'%')->get();
+    		$news = News::where('status', 'Publish')->where('title','like','%'.$request->keyword.'%')->orderBy('created_at', 'desc')->get();
     	}else{
-    		$news = News::where('status', 'Publish')->get();
+    		$news = News::where('status', 'Publish')->orderBy('created_at', 'desc')->get();
     	}
 
     	$banners = News::where('status', 'Publish')->inRandomOrder()->limit(5)->get();
